@@ -1,6 +1,6 @@
 # Mode Registry
 
-Single source of truth for all modes across the ARS suite. **27 modes** across 4 skills.
+Single source of truth for all modes across the ARS suite. **30 modes** across 5 skills.
 
 When adding or modifying modes, update this file first — SKILL.md files and CLAUDE.md should reference this registry.
 
@@ -48,6 +48,14 @@ Last updated: v3.13.0 (2026-06-18)
 | `guided` | Originality | Socratic issue-by-issue dialogue | Very High | "guide me to improve", "walk me through issues" |
 | `calibration` | Fidelity | Calibration Report (FNR/FPR/AUC) + confidence disclosure | Medium | "calibrate reviewer", "measure reviewer accuracy" |
 
+## grant-finder (3 modes)
+
+| Mode | Spectrum | Output | Oversight | Triggers |
+|------|----------|--------|-----------|----------|
+| `search` | Fidelity | Ranked grant opportunities + Markdown digest | Medium | "find grants", "NIH grants", "grant search", "funding opportunities" |
+| `digest` | Fidelity | Markdown report from saved results | Low | "grant digest", "grant report", "saved grants" |
+| `context` | Fidelity | NIH RePORTER funded-project list | Low | "funded projects", "NIH RePORTER", "similar grants" |
+
 ## academic-pipeline (1 orchestrator + 1 resume mode)
 
 | Mode | Spectrum | Output | Oversight | Triggers |
@@ -61,10 +69,10 @@ Last updated: v3.13.0 (2026-06-18)
 
 | Metric | Count |
 |--------|-------|
-| Total modes | 27 |
-| Fidelity | 16 (59%) |
-| Balanced | 7 (26%) |
-| Originality | 4 (15%) |
+| Total modes | 30 |
+| Fidelity | 19 (63%) |
+| Balanced | 7 (23%) |
+| Originality | 4 (13%) |
 
 ### Oversight levels
 

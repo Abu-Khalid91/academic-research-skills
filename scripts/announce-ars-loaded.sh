@@ -54,12 +54,12 @@ fi
 # ---------------------------------------------------------------------------
 case "${SOURCE}" in
   compact|resume)
-    ANNOUNCE="ARS plugin still loaded after ${SOURCE}. Slash commands: /ars-full /ars-plan /ars-outline /ars-revision /ars-revision-coach /ars-abstract /ars-lit-review /ars-reviewer /ars-format-convert /ars-citation-check /ars-disclosure /ars-mark-read /ars-unmark-read /ars-cache-invalidate. Plugin agents: synthesis_agent, research_architect_agent, report_compiler_agent."
+    ANNOUNCE="ARS plugin still loaded after ${SOURCE}. Slash commands: /ars-full /ars-plan /ars-outline /ars-revision /ars-revision-coach /ars-abstract /ars-lit-review /ars-reviewer /ars-format-convert /ars-citation-check /ars-disclosure /ars-grants /ars-mark-read /ars-unmark-read /ars-cache-invalidate. Plugin agents: synthesis_agent, research_architect_agent, report_compiler_agent."
     ;;
   startup|clear|*)
     ANNOUNCE="ARS (academic-research-skills) plugin loaded.
 
-Slash commands (14) — light modes pin sonnet in frontmatter; the three heavy modes inherit the session model (the v3.7.0 opus floor was retired in the 2026-06 harness pass):
+Slash commands (15) — light modes pin sonnet in frontmatter; the three heavy modes inherit the session model (the v3.7.0 opus floor was retired in the 2026-06 harness pass):
   /ars-full              inherit Full pipeline (research → write → review → revise → finalize)
   /ars-revision-coach    inherit Parse reviewer comments → Revision Roadmap + Response Letter skeleton
   /ars-reviewer          inherit academic-paper-reviewer full mode — simulated peer-review panel
@@ -71,6 +71,7 @@ Slash commands (14) — light modes pin sonnet in frontmatter; the three heavy m
   /ars-format-convert    sonnet  Convert paper between LaTeX / DOCX / PDF / Markdown
   /ars-citation-check    sonnet  Citation error report
   /ars-disclosure        sonnet  Venue-specific AI-usage disclosure statement
+  /ars-grants            sonnet  NIH/HHS grant discovery, ML scoring & digest
   /ars-mark-read         sonnet  Record human-read signal for one or more citation keys
   /ars-unmark-read       sonnet  Rescind a prior human-read mark for one or more citation keys
   /ars-cache-invalidate  sonnet  Drop cached verification rows for one or more citation keys

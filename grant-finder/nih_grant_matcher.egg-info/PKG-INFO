@@ -1,0 +1,7 @@
+Metadata-Version: 2.4
+Name: nih-grant-matcher
+Version: 0.1.0
+Summary: Find NIH/HHS grant opportunities relevant to ML and data analysis expertise.
+Requires-Python: >=3.10
+Requires-Dist: streamlit>=1.36
+Requires-Dist: pandas>=2.0
