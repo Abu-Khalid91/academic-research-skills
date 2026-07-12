@@ -47,6 +47,9 @@ ARS modes fall on a spectrum between these poles. This table is the reference fo
 | academic-paper-reviewer | `methodology-focus` | Fidelity | Heavy | Focused on statistical/methods rubric |
 | academic-paper-reviewer | `guided` | Originality | Light | Socratic dialogue, adaptive to what the user needs |
 | academic-paper-reviewer | `calibration` (v3.2) | Fidelity | Heavy | Fixed 5x ensembling protocol, no creative adaptation |
+| grant-finder | `search` | Fidelity | Heavy | API-driven ingestion + deterministic scoring, fixed output format |
+| grant-finder | `digest` | Fidelity | Heavy | Report from saved data, fixed Markdown template |
+| grant-finder | `context` | Fidelity | Heavy | NIH RePORTER API query, no creative adaptation |
 
 ---
 
