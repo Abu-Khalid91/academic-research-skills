@@ -50,6 +50,8 @@ ARS modes fall on a spectrum between these poles. This table is the reference fo
 | grant-finder | `search` | Fidelity | Heavy | API-driven ingestion + deterministic scoring, fixed output format |
 | grant-finder | `digest` | Fidelity | Heavy | Report from saved data, fixed Markdown template |
 | grant-finder | `context` | Fidelity | Heavy | NIH RePORTER API query, no creative adaptation |
+| research-pulse | `scan` | Fidelity | Medium | Fixed four-bucket search structure, but query wording adapts to session context |
+| research-pulse | `deep-dive` | Balanced | Light | Follow-up answer shaped by whatever specific question the user asks, no fixed template |
 
 ---
 
