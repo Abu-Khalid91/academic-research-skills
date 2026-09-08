@@ -10,6 +10,7 @@ A suite of Claude Code skills for rigorous academic research, paper writing, pee
 | `academic-paper` v3.2.0 | 12-agent paper writing | full, plan, outline-only, revision, revision-coach, abstract-only, lit-review, format-convert, citation-check, disclosure, rebuttal-audit |
 | `academic-paper-reviewer` v1.10.0 | Multi-perspective paper review (5 reviewers + optional cross-model DA critique) | full, re-review, quick, methodology-focus, guided, calibration |
 | `grant-finder` v1.0.0 | 7-agent NIH grant discovery & ranking | search, digest, context |
+| `research-pulse` v1.0.0 | On-demand research-trends & business-insight digest | scan, deep-dive |
 | `academic-pipeline` v3.13.0 | Full pipeline orchestrator | (coordinates all above) |
 
 ## v3.13 Key Additions (portability + verifier reach + guard correctness)
