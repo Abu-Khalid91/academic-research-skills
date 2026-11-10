@@ -1,0 +1,407 @@
+{
+  "case_a": {
+    "score": 95.654327,
+    "sigma": 0.057770398483230956,
+    "final_confidence": 0.804,
+    "ced": 0.04993932343315025,
+    "path_drift": 0.001939323433150212,
+    "delta_conf": 0.04800000000000004,
+    "delta_info": 0.0,
+    "laundering": 0.04800000000000004,
+    "rho": 0.8967137167665249,
+    "dissent_round0": 0.0049206155379964865,
+    "dissent_final": 0.0005082320901405433,
+    "spce_encounter": 0.0,
+    "penalty": 0.04345672582851868,
+    "ceiling": 0.9711148007583845,
+    "tier": 1,
+    "consensus_diagnosis_index": 0,
+    "voi": [
+      {
+        "key": "lactate",
+        "label": "Arterial lactate",
+        "voi_points": 1.0578,
+        "score_if_refreshed": 96.712156
+      },
+      {
+        "key": "pf_ratio",
+        "label": "PaO2/FiO2 ratio",
+        "voi_points": 0.7212,
+        "score_if_refreshed": 96.375574
+      },
+      {
+        "key": "creatinine",
+        "label": "Serum creatinine",
+        "voi_points": 0.4227,
+        "score_if_refreshed": 96.077036
+      },
+      {
+        "key": "bicarbonate",
+        "label": "Bicarbonate",
+        "voi_points": 0.3252,
+        "score_if_refreshed": 95.979488
+      },
+      {
+        "key": "wbc",
+        "label": "White blood cell count",
+        "voi_points": 0.3252,
+        "score_if_refreshed": 95.979488
+      },
+      {
+        "key": "platelets",
+        "label": "Platelet count",
+        "voi_points": 0.1814,
+        "score_if_refreshed": 95.835748
+      },
+      {
+        "key": "inr",
+        "label": "INR",
+        "voi_points": 0.1649,
+        "score_if_refreshed": 95.819255
+      },
+      {
+        "key": "bilirubin",
+        "label": "Total bilirubin",
+        "voi_points": 0.1484,
+        "score_if_refreshed": 95.802762
+      }
+    ],
+    "fallback": [
+      "SSC-ABX",
+      "SSC-FLUID",
+      "SSC-MAP",
+      "KDIGO-AKI"
+    ]
+  },
+  "case_b": {
+    "score": 38.069637,
+    "sigma": 0.7057233797391318,
+    "final_confidence": 0.8400000000000001,
+    "ced": 0.6286483347771921,
+    "path_drift": 0.11864833477719199,
+    "delta_conf": 0.5100000000000001,
+    "delta_info": 0.0,
+    "laundering": 0.5100000000000001,
+    "rho": 0.9503718906411257,
+    "dissent_round0": 0.04418369941113652,
+    "dissent_final": 0.002192753466255513,
+    "spce_encounter": 0.38572337973913196,
+    "penalty": 0.6193036273333823,
+    "ceiling": 0.6471383101304341,
+    "tier": 3,
+    "consensus_diagnosis_index": null,
+    "voi": [
+      {
+        "key": "lactate",
+        "label": "Arterial lactate",
+        "voi_points": 17.3816,
+        "score_if_refreshed": 55.451274
+      },
+      {
+        "key": "pf_ratio",
+        "label": "PaO2/FiO2 ratio",
+        "voi_points": 11.8511,
+        "score_if_refreshed": 49.920753
+      },
+      {
+        "key": "bicarbonate",
+        "label": "Bicarbonate",
+        "voi_points": 7.9007,
+        "score_if_refreshed": 45.970381
+      },
+      {
+        "key": "inr",
+        "label": "INR",
+        "voi_points": 7.9007,
+        "score_if_refreshed": 45.970381
+      },
+      {
+        "key": "bilirubin",
+        "label": "Total bilirubin",
+        "voi_points": 7.1107,
+        "score_if_refreshed": 45.180307
+      },
+      {
+        "key": "creatinine",
+        "label": "Serum creatinine",
+        "voi_points": 1.6341,
+        "score_if_refreshed": 39.703785
+      },
+      {
+        "key": "wbc",
+        "label": "White blood cell count",
+        "voi_points": 1.257,
+        "score_if_refreshed": 39.326674
+      },
+      {
+        "key": "platelets",
+        "label": "Platelet count",
+        "voi_points": 0.7213,
+        "score_if_refreshed": 38.79094
+      }
+    ],
+    "fallback": [
+      "SSC-ABX",
+      "SSC-LACT",
+      "SSC-FLUID",
+      "SSC-MAP",
+      "SSC-VENT"
+    ]
+  },
+  "privacy": {
+    "patient_token": "ANON-08DA287D549EF003",
+    "unit_token": "ANON-7D7349C34A83B0F7",
+    "scrub_counts": {
+      "SAUDI_ID": 1,
+      "MRN": 1,
+      "DATE": 1,
+      "NAME": 1,
+      "FACILITY": 1
+    },
+    "scrubbed": "[REDACTED-NAME], [REDACTED-MRN], Iqama [REDACTED-SAUDI_ID], seen [REDACTED-DATE] at [REDACTED-FACILITY]"
+  },
+  "monte_carlo": {
+    "n": 1000,
+    "seed": 20261110,
+    "auroc_score": 0.691266139525573,
+    "auroc_ci95": [
+      0.6573822110443943,
+      0.724514511163254
+    ],
+    "auroc_raw_confidence": 0.6418977079371434,
+    "per_scenario": {
+      "S0": {
+        "description": "dense, fresh labs; mild sharpening",
+        "n": 250,
+        "mean_sigma": 0.3231916630900852,
+        "mean_score": 79.34997219599998,
+        "consensus_accuracy": 0.764,
+        "mean_confidence": 0.677906359866993,
+        "tier1_frac": 0.496,
+        "tier2_frac": 0.5,
+        "tier3_frac": 0.004
+      },
+      "S1": {
+        "description": "moderate sparsity",
+        "n": 250,
+        "mean_sigma": 0.6663532297634907,
+        "mean_score": 58.613287616,
+        "consensus_accuracy": 0.524,
+        "mean_confidence": 0.5825774914296552,
+        "tier1_frac": 0.0,
+        "tier2_frac": 0.876,
+        "tier3_frac": 0.124
+      },
+      "S2": {
+        "description": "high sparsity, no laundering",
+        "n": 250,
+        "mean_sigma": 0.8956237831638615,
+        "mean_score": 44.378785012,
+        "consensus_accuracy": 0.304,
+        "mean_confidence": 0.551455675883606,
+        "tier1_frac": 0.0,
+        "tier2_frac": 0.196,
+        "tier3_frac": 0.804
+      },
+      "S3": {
+        "description": "high sparsity + confidence laundering",
+        "n": 250,
+        "mean_sigma": 0.8941908336893264,
+        "mean_score": 38.949322096,
+        "consensus_accuracy": 0.348,
+        "mean_confidence": 0.7015090430545896,
+        "tier1_frac": 0.0,
+        "tier2_frac": 0.188,
+        "tier3_frac": 0.812
+      }
+    },
+    "by_tier": {
+      "tier1": {
+        "n": 124,
+        "consensus_accuracy": 0.7661290322580645
+      },
+      "tier2": {
+        "n": 440,
+        "consensus_accuracy": 0.5704545454545454
+      },
+      "tier3": {
+        "n": 436,
+        "consensus_accuracy": 0.31880733944954126
+      }
+    },
+    "calibration": {
+      "ece_raw": 0.1433621425587109,
+      "ece_capped": 0.1196937117995435,
+      "mean_ceiling_excess": 0.1463003718080799,
+      "spce": 0.2659940836076234
+    },
+    "overall_accuracy": 0.485
+  },
+  "scaling": {
+    "scenario": "S3",
+    "n_per_cell": 200,
+    "seed": 20261111,
+    "cells": [
+      {
+        "M": 3,
+        "R": 1,
+        "naive_rho": 0.5306374825832932,
+        "naive_score": 48.192936550000006,
+        "naive_accuracy": 0.36,
+        "catfish_rho": 0.29356468652580303,
+        "catfish_score": 54.33328714,
+        "catfish_accuracy": 0.36
+      },
+      {
+        "M": 3,
+        "R": 2,
+        "naive_rho": 0.7784869982287842,
+        "naive_score": 37.55385877,
+        "naive_accuracy": 0.34,
+        "catfish_rho": 0.2982944356611862,
+        "catfish_score": 50.904830780000005,
+        "catfish_accuracy": 0.33
+      },
+      {
+        "M": 3,
+        "R": 4,
+        "naive_rho": 0.9557803191601518,
+        "naive_score": 25.47323018,
+        "naive_accuracy": 0.345,
+        "catfish_rho": 0.2609676785940372,
+        "catfish_score": 47.20091917,
+        "catfish_accuracy": 0.355
+      },
+      {
+        "M": 3,
+        "R": 6,
+        "naive_rho": 0.992204934613031,
+        "naive_score": 19.575545305,
+        "naive_accuracy": 0.335,
+        "catfish_rho": 0.2347823196597566,
+        "catfish_score": 44.511568239999995,
+        "catfish_accuracy": 0.345
+      },
+      {
+        "M": 5,
+        "R": 1,
+        "naive_rho": 0.4959171947872663,
+        "naive_score": 48.854836875000004,
+        "naive_accuracy": 0.405,
+        "catfish_rho": 0.35998870835285585,
+        "catfish_score": 52.511693210000004,
+        "catfish_accuracy": 0.4
+      },
+      {
+        "M": 5,
+        "R": 2,
+        "naive_rho": 0.747653782299136,
+        "naive_score": 38.87441558,
+        "naive_accuracy": 0.335,
+        "catfish_rho": 0.4572945150267197,
+        "catfish_score": 46.81285335,
+        "catfish_accuracy": 0.33
+      },
+      {
+        "M": 5,
+        "R": 4,
+        "naive_rho": 0.9463212236081722,
+        "naive_score": 26.040537009999998,
+        "naive_accuracy": 0.355,
+        "catfish_rho": 0.4570243082846814,
+        "catfish_score": 40.542244985,
+        "catfish_accuracy": 0.36
+      },
+      {
+        "M": 5,
+        "R": 6,
+        "naive_rho": 0.9922070390485479,
+        "naive_score": 19.16015437,
+        "naive_accuracy": 0.33,
+        "catfish_rho": 0.3640115459049767,
+        "catfish_score": 37.74050477,
+        "catfish_accuracy": 0.325
+      },
+      {
+        "M": 7,
+        "R": 1,
+        "naive_rho": 0.48996177482925296,
+        "naive_score": 49.204024725,
+        "naive_accuracy": 0.37,
+        "catfish_rho": 0.38173107795585665,
+        "catfish_score": 51.93728166000001,
+        "catfish_accuracy": 0.37
+      },
+      {
+        "M": 7,
+        "R": 2,
+        "naive_rho": 0.7466587474683791,
+        "naive_score": 38.765097839999996,
+        "naive_accuracy": 0.35,
+        "catfish_rho": 0.5401833250770146,
+        "catfish_score": 44.619115775,
+        "catfish_accuracy": 0.34
+      },
+      {
+        "M": 7,
+        "R": 4,
+        "naive_rho": 0.9473768469267398,
+        "naive_score": 25.876187975000004,
+        "naive_accuracy": 0.3,
+        "catfish_rho": 0.5277606549287396,
+        "catfish_score": 38.102353185,
+        "catfish_accuracy": 0.305
+      },
+      {
+        "M": 7,
+        "R": 6,
+        "naive_rho": 0.9883838086856739,
+        "naive_score": 19.88999489,
+        "naive_accuracy": 0.375,
+        "catfish_rho": 0.5039021170238095,
+        "catfish_score": 34.03080167,
+        "catfish_accuracy": 0.38
+      },
+      {
+        "M": 10,
+        "R": 1,
+        "naive_rho": 0.47947473050202105,
+        "naive_score": 50.949322755000004,
+        "naive_accuracy": 0.4,
+        "catfish_rho": 0.412986385093333,
+        "catfish_score": 52.63789210499999,
+        "catfish_accuracy": 0.4
+      },
+      {
+        "M": 10,
+        "R": 2,
+        "naive_rho": 0.7435948791277767,
+        "naive_score": 39.657998405,
+        "naive_accuracy": 0.335,
+        "catfish_rho": 0.6036316885707036,
+        "catfish_score": 43.58662059,
+        "catfish_accuracy": 0.335
+      },
+      {
+        "M": 10,
+        "R": 4,
+        "naive_rho": 0.9469344582267013,
+        "naive_score": 25.797271185,
+        "naive_accuracy": 0.315,
+        "catfish_rho": 0.6543202355230687,
+        "catfish_score": 34.40095812,
+        "catfish_accuracy": 0.315
+      },
+      {
+        "M": 10,
+        "R": 6,
+        "naive_rho": 0.9893387855079567,
+        "naive_score": 19.656355955,
+        "naive_accuracy": 0.285,
+        "catfish_rho": 0.6196748032517772,
+        "catfish_score": 30.096206600000002,
+        "catfish_accuracy": 0.28
+      }
+    ]
+  }
+}
