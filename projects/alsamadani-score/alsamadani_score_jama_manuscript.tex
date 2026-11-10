@@ -1,0 +1,443 @@
+% !TEX program = lualatex
+% The AlSamadani Score -- manuscript source. Compile:
+%   python3 alsamadani_score_calculator.py      (regenerates alsamadani_results.tex)
+%   lualatex -interaction=nonstopmode -halt-on-error alsamadani_score_jama_manuscript.tex  (run twice)
+\documentclass[11pt]{article}
+\usepackage[a4paper,margin=2.5cm]{geometry}
+\usepackage{fontspec}
+\usepackage{amsmath,amssymb}
+\usepackage{microtype}
+\usepackage{booktabs,tabularx,array}
+\usepackage[table]{xcolor}
+\usepackage{enumitem}
+\usepackage{authblk}
+\usepackage{caption}
+\usepackage{titlesec}
+\usepackage[colorlinks=true,linkcolor=blue!50!black,citecolor=blue!50!black,urlcolor=blue!50!black]{hyperref}
+
+\setmainfont{Latin Modern Roman}
+\setsansfont{Latin Modern Sans}
+\captionsetup{font=small,labelfont=bf}
+\setlist{nosep,leftmargin=*}
+\titleformat{\section}{\large\sffamily\bfseries}{}{0pt}{}
+\titleformat{\subsection}{\normalsize\sffamily\bfseries}{}{0pt}{}
+\titlespacing*{\section}{0pt}{8pt}{3pt}
+\titlespacing*{\subsection}{0pt}{6pt}{2pt}
+\setlength{\parskip}{2pt}
+\renewcommand{\arraystretch}{1.15}
+\linespread{1.12}
+\newcolumntype{Y}{>{\raggedright\arraybackslash}X}
+
+\IfFileExists{alsamadani_results.tex}{\input{alsamadani_results.tex}}{%
+  \PackageError{manuscript}{alsamadani_results.tex missing}{Run python3 alsamadani_score_calculator.py first.}}
+
+\newcommand{\Sal}{S_{\mathrm{AlSamadani}}}
+\newcommand{\JSD}{\mathrm{JSD}_2}
+
+\title{\sffamily\bfseries The AlSamadani Score: A Fail-Closed Governance and Confidence-Calibration
+Framework for Recursive Multi-Agent Clinical Decision Support Under Data Sparsity in the ICU and CVICU}
+
+\author[1,2]{Saud Khalid AlSamadani, MBBS, SB-ACCM}
+\affil[1]{\small Cardiac Critical Care Medicine Department, King Fahad Medical City (KFMC), Riyadh Second Health Cluster, Riyadh, Saudi Arabia}
+\affil[2]{\small Adult Critical Care Medicine Department, King Faisal Hospital, Makkah Health Cluster, Ministry of Health, Makkah, Saudi Arabia}
+\date{\small Corresponding author: s.alsamadani@gmail.com $|$ salsamadani@kfmc.med.sa \quad ORCID: 0009-0008-1007-4616\\[2pt]
+Preprint draft, \today. Not peer reviewed. Simulation and methods study; no patient data analyzed.}
+
+\begin{document}
+\maketitle
+\vspace{-10pt}
+
+\noindent\fcolorbox{black!40}{black!3}{\parbox{\dimexpr\linewidth-2\fboxsep-2\fboxrule}{\small
+\textbf{Key Points}\\
+\textbf{Question}\enspace Can a single bounded score tell when a recursive multi-agent large language model (LLM)
+consensus in the intensive care unit is too poorly grounded in fresh physiological data to be shown to clinicians?\\
+\textbf{Findings}\enspace In this methods and simulation study, the proposed AlSamadani Score ($\Sal\in[0,100]$)
+combines temporal data sparsity, collective epistemic drift, dissent collapse, and a sparsity-dependent confidence
+ceiling. On 2 author-constructed vignettes, it graded a dense-data encounter Tier~I ($\Sal=\CaseAScore$) and
+blocked the consensus for a sparse admission-triage encounter (Tier~III, $\Sal=\CaseBScore$), for which arterial
+lactate had the largest counterfactual value of information (+\TopVOIPoints{} points). In \MCN{} synthetic encounters, the
+score discriminated correct from incorrect consensus with an area under the receiver operating characteristic curve (AUROC) of
+\MCAUROC{} (95\% CI, \MCAUROCLo--\MCAUROCHi), versus \MCAUROCConf{} for raw consensus confidence.\\
+\textbf{Meaning}\enspace These findings justify validating the score on real data with a prespecified protocol before any use
+at the bedside. They are not evidence of clinical benefit.}}
+
+\begin{abstract}
+\small
+\noindent\textbf{Importance}\enspace Multi-agent LLM systems are being proposed for critical care. Iterative debate can
+make agents look more consistent and more confident without adding any evidence. At intensive care unit (ICU) admission,
+when laboratory data are sparse or stale, that pattern risks anchoring and automation bias.\\
+\textbf{Objective}\enspace To specify and test the internal behavior of a fail-closed governance score that decides
+when a multi-agent consensus may be displayed, should be displayed only as differentials, or must be withheld.\\
+\textbf{Design, Setting, and Participants}\enspace A methods study with deterministic vignettes and a seeded Monte Carlo
+simulation ($N=\MCN$ encounters across 4 sparsity and confidence-laundering scenarios), plus a scaling benchmark
+($M\in\{3,5,7,10\}$ agents, $R\in\{1,2,4,6\}$ rounds) with and without a ``catfish'' dissenting agent.
+No patient data were used. Open-source code includes a loader for MIMIC-IV v3.1 and eICU-CRD for future validation.\\
+\textbf{Main Outcomes and Measures}\enspace Governance tier, AUROC of $\Sal$ for correct consensus, expected calibration error (ECE)
+before and after the confidence ceiling, and dissent-collapse ratio.\\
+\textbf{Results}\enspace The dense-data vignette was graded Tier~I ($\Sal=\CaseAScore$) and the sparse admission vignette
+Tier~III ($\Sal=\CaseBScore$; consensus withheld; deterministic sepsis-bundle fallback issued). In simulation, the AUROC was
+\MCAUROC{} (95\% CI, \MCAUROCLo--\MCAUROCHi) versus \MCAUROCConf{} for raw confidence. Consensus accuracy was
+\MCTierOneAcc\% in Tier~I and \MCTierThreeAcc\% in Tier~III (4-class problem; chance, 25\%). Capping confidence lowered
+ECE from \MCECERaw{} to \MCECECapped. The catfish agent reduced dissent collapse and raised $\Sal$ but did
+not improve consensus accuracy. The dissent component can therefore be inflated without any epistemic gain.\\
+\textbf{Conclusions and Relevance}\enspace The AlSamadani Score is a transparent, fail-closed rule for withholding
+under-grounded LLM consensus. Its weights are expert priors, and its performance figures are synthetic.
+Prospective, TRIPOD+AI--guided validation is required before clinical use.
+\end{abstract}
+
+\section{Introduction}
+LLM agents are increasingly evaluated on ICU data. AgentRx benchmarked LLM agents on multimodal clinical risk
+prediction using MIMIC ICU data. In that study, single-agent configurations outperformed naive multi-agent baselines,
+and both trailed supervised fusion models.\cite{agentrx} Agentic systems now run complete emergency department workflows
+on MIMIC-IV cases.\cite{mira} Debate among agents has well-known benefits for factuality on benchmark tasks.\cite{du2024}
+In medical question answering, however, Wang and Yang showed that debate can produce a \emph{consistency illusion}.
+Agents stop contradicting each other while the similarity of their reasoning chains falls, as measured by their
+cross-agent reasoning alignment (CARA) metrics.\cite{wangyang}
+In a 3-agent retrieval-augmented system for early sepsis management evaluated by 2 intensivists,
+hallucinated clinical findings appeared in 3 of 10 cases.\cite{iapascurta}
+
+These observations matter most at ICU admission. At that point lactate, arterial blood gases, and coagulation
+studies are often pending or hours old. A confident consensus formed then may rest on population priors rather than
+patient data. Known failure modes of clinical decision support compound the risk. The most relevant are automation bias\cite{goddard} and
+inflated or poorly calibrated outputs from widely deployed sepsis models.\cite{wong2021} Calibration metrics such as ECE\cite{guo2017} assess a model's
+confidence but say nothing about whether the evidence for that confidence is present at the moment it is displayed.
+
+We propose the AlSamadani Score ($\Sal$), a bounded, fully specified governance layer that sits
+\emph{between} a multi-agent system and the clinician. It answers 1 operational question: whether the consensus should be
+shown, shown only as differentials, or withheld. It also says which data to obtain. The score is \emph{fail-closed}:
+any missing input, invalid trace, or software error resolves to abstention. Abstention is never empty: a deterministic
+guideline engine evaluated on observed data supplies a bedside fallback.
+
+\section{Methods}
+\subsection{Setting and notation}
+An encounter $e$ is evaluated at time $t$ (hours since ICU admission). $M$ specialist agents
+deliberate for $R$ rounds over $K$ candidate diagnoses. Agent $m$ in round $r$ emits a probability vector
+$p_{m,r}\in\Delta^{K-1}$; round 0 holds the independent first opinions. The consensus is
+$\bar p_r=\tfrac1M\sum_m p_{m,r}$ and its confidence is $c_r=\max_k \bar p_{r,k}$. All divergences use the base-2
+Jensen--Shannon divergence $\JSD\in[0,1]$.\cite{lin1991}
+
+\subsection{Temporal-Physiological Sparsity Index}
+Eight canonical sepsis and Sequential Organ Failure Assessment (SOFA) biomarkers\cite{singer2016,vincent1996} carry
+decision weights $w_j$ ($\sum_j w_j=1$) and decision-relevance half-lives $h_j$ (Table~1). If $m_j\in\{0,1\}$ indicates
+that biomarker $j$ has been observed and $\Delta t_j$ is its elapsed age in hours, then
+\begin{equation}
+\sigma(x_t)=1-\sum_{j=1}^{8} w_j\, m_j\, e^{-\lambda_j \Delta t_j},\qquad \lambda_j=\frac{\ln 2}{h_j},\qquad \sigma\in[0,1].
+\end{equation}
+The index is 0 when every biomarker is observed at $\Delta t_j=0$ and 1 when none is available. The half-lives encode how
+fast each value loses decision relevance in shock, not its pharmacokinetics. The weights and half-lives are expert
+priors set by the author before any simulation. They were not fitted to data.
+
+\begin{table}[t]\centering\small
+\caption{Biomarker panel, prespecified weights, and half-lives}
+\begin{tabularx}{\linewidth}{lYccc}
+\toprule
+$j$ & Biomarker (unit) & $w_j$ & $h_j$, h & MIMIC-IV itemid\textsuperscript{a}\\
+\midrule
+1 & Arterial lactate (mmol/L) & 0.22 & 2 & 50813\\
+2 & PaO$_2$/FiO$_2$ ratio (mm Hg) & 0.15 & 4 & 50821 + chart 223835\\
+3 & Serum creatinine (mg/dL) & 0.13 & 12 & 50912\\
+4 & Platelet count ($\times10^9$/L) & 0.11 & 24 & 51265\\
+5 & White blood cell count ($\times10^9$/L) & 0.10 & 12 & 51301\\
+6 & International normalized ratio & 0.10 & 24 & 51237\\
+7 & Bicarbonate (mmol/L) & 0.10 & 6 & 50882\\
+8 & Total bilirubin (mg/dL) & 0.09 & 24 & 50885\\
+\bottomrule
+\end{tabularx}
+\par\smallskip\raggedright\footnotesize \textsuperscript{a}Default identifiers in the loader. Verify them against the local \texttt{d\_labitems}/\texttt{d\_items}
+dictionaries; eICU-CRD lab names are listed in the code.
+\end{table}
+
+\subsection{Collective Epistemic Drift}
+Drift is the cumulative change in the consensus across rounds plus a penalty for \emph{confidence laundering}, ie,
+confidence that rises faster than grounded evidence:
+\begin{equation}
+\mathrm{CED}_R=\min\Bigl\{1,\;\sum_{r=1}^{R}\JSD(\bar p_{r-1},\bar p_r)\;+\;\gamma\,\max\bigl(0,\;\Delta c-\Delta I_{\mathrm{evid}}\bigr)\Bigr\},
+\end{equation}
+where $\Delta c=c_R-c_0$ and $\Delta I_{\mathrm{evid}}=I_R-I_0$, with $I_r$ the grounded-evidence information available
+at round $r$ (eg, $1-\sigma$ if new results arrive during deliberation; otherwise constant, so $\Delta I_{\mathrm{evid}}=0$).
+We set $\gamma=1$.
+
+\subsection{Dissent Collapse Ratio under sparsity}
+With mean pairwise disagreement $D_r=\binom{M}{2}^{-1}\sum_{m<m'}\JSD(p_{m,r},p_{m',r})$,
+\begin{equation}
+\rho_{\mathrm{collapse}}=\max\bigl(0,\,1-D_R/D_0\bigr)\quad(\rho=0\text{ if }D_0<10^{-3}).
+\end{equation}
+Agents converging on dense data is expected and benign. Convergence on sparse data is the warning sign. The score
+therefore uses the sparsity-weighted product $\sigma\rho$.
+
+\subsection{Sparsity-Penalized Calibration Error and the Epistemic Confidence Ceiling}
+The confidence the available data can support is capped at
+\begin{equation}
+c_{\max}(\sigma)=1-\kappa\sigma,\qquad
+\mathrm{SPCE}_e=\frac{\max\bigl(0,\,c_R-c_{\max}\bigr)}{\kappa}\in[0,1],
+\end{equation}
+with $\kappa=0.5$. Thus a fully sparse encounter cannot display a probability above 0.5. At cohort level,
+$\mathrm{SPCE}=\mathrm{ECE}\bigl(\min(c_i,c_{\max,i})\bigr)+\overline{\mathrm{SPCE}_e}$, combining the residual
+miscalibration of capped confidences\cite{guo2017,naeini2015} with the mean excess over the ceiling.
+
+\subsection{The AlSamadani Score}
+\begin{equation}
+\Sal=100\Bigl[1-\bigl(\alpha_\sigma\,\sigma+\alpha_D\,\mathrm{CED}_R+\alpha_\rho\,\sigma\rho_{\mathrm{collapse}}+\alpha_C\,\mathrm{SPCE}_e\bigr)\Bigr],
+\end{equation}
+with prespecified weights $(\alpha_\sigma,\alpha_D,\alpha_\rho,\alpha_C)=(0.40,0.20,0.20,0.20)$.
+\textit{Boundedness.} Each component lies in $[0,1]$ and the $\alpha$ weights sum to 1, so $\Sal\in[0,100]$.
+\textit{Monotonicity.} For a fixed deliberation trace,
+$\partial\Sal/\partial\sigma=-100\bigl(\alpha_\sigma+\alpha_\rho\rho+\alpha_C\,\mathbb 1[c_R>c_{\max}]\bigr)\le0$
+almost everywhere. Fresher or more complete data never lower the score.
+
+\subsection{Counterfactual value of information}
+For each biomarker, $\mathrm{VOI}_j=\Sal(x_t\mid \Delta t_j{=}0,\,m_j{=}1)-\Sal(x_t)$. The deliberation trace is held fixed,
+so VOI measures how much of the score the governance layer would recover if that test were drawn now; it does not
+predict how the agents would update. By Eq.~5, while the ceiling stays active,
+$\mathrm{VOI}_j=100\,w_j(1-m_j e^{-\lambda_j\Delta t_j})(\alpha_\sigma+\alpha_\rho\rho+\alpha_C)$. VOI therefore scales with
+each biomarker's lost information multiplied by the encounter's collapse level. Tests are ranked by $\mathrm{VOI}_j$.
+
+\subsection{Governance tiers and the fail-closed fallback}
+Table~2 shows the tiers. In Tier~III the software sets \texttt{consensus\_diagnosis\_index = None} and returns no
+probability. The aim is to prevent anchoring and to spare clinicians the work of verifying an under-grounded answer.
+Validation errors, missing traces, or exceptions also resolve to Tier~III. In every tier a deterministic rule engine
+evaluates the \emph{observed} vital signs and laboratory values against the 2026 Surviving Sepsis Campaign (SSC) adult
+guideline\cite{ssc2026} and the KDIGO acute kidney injury guideline.\cite{kdigo2012} The SSC rules cover antimicrobials
+ideally within 1 hour when shock is possible, lactate measurement when it is unavailable, and individualized balanced
+crystalloid resuscitation (30 mL/kg considered within 3 hours, reassessed with dynamic measures). They also cover
+norepinephrine as first-line vasopressor with an initial mean arterial pressure (MAP) target of 65 mm Hg (60--65 mm Hg
+at age 65 years or older) and lung-protective ventilation at 6 mL/kg predicted body weight. The KDIGO rules cover AKI
+staging with nephrotoxin avoidance. The engine never imputes values. It returns at least 1 recommendation by construction,
+which we call guideline coverage; coverage is not evidence of efficacy. Every recommendation is a prompt for clinician
+review, not an order.
+
+\begin{table}[t]\centering\small
+\caption{Governance tiers and bedside actions}
+\begin{tabularx}{\linewidth}{p{2.6cm}p{1.7cm}Y}
+\toprule
+Tier & $\Sal$ & Display policy\\
+\midrule
+I, Grounded & $\ge 80.0$ & Consensus diagnosis with ceiling-capped probability $\min(c_R,c_{\max})$; standard oversight; top-3 VOI shown.\\
+II, Guarded & 50.0--79.9 & No single-answer framing. Top-2 differentials, round-0 dissenting rationales, and top-3 VOI laboratory refresh recommendations.\\
+III, Mandatory AI abstention & $<50.0$ or any failure & \texttt{consensus\_diagnosis\_index = None}; no probability shown. Deterministic SSC 2026/KDIGO fallback on observed data plus stat laboratory tests ranked by VOI.\\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+
+\noindent\fcolorbox{black!40}{white}{\parbox{\dimexpr\linewidth-2\fboxsep-2\fboxrule}{\small
+\textbf{Box. Runtime governance pipeline (one evaluation)}
+\begin{enumerate}[label=\arabic*.,leftmargin=1.4em]
+\item \emph{De-identify}: replace patient, stay, and unit identifiers with HMAC tokens; convert timestamps to
+$\Delta t_j$; scrub free text; abort (Tier~III) if a residual-PHI check fails or no salt is configured.
+\item \emph{Ground}: compute $\sigma(x_t)$ from the observed biomarker ages (Eq.~1).
+\item \emph{Deliberate} (external multi-agent system): collect $p_{m,r}$ for $r=0,\dots,R$ and the round-0 rationales.
+\item \emph{Audit}: compute $\mathrm{CED}_R$, $\rho_{\mathrm{collapse}}$, $c_{\max}$, and $\mathrm{SPCE}_e$ (Eqs~2--4), then $\Sal$ (Eq.~5).
+\item \emph{Decide}: assign the tier (Table~2); on any exception, assign Tier~III and set \texttt{consensus\_diagnosis\_index = None}.
+\item \emph{Act}: always run the deterministic SSC 2026/KDIGO engine on observed data; rank tests by $\mathrm{VOI}_j$.
+\item \emph{Log}: store the tokens, the component values, the tier, and the fallback rule identifiers for audit. Store no raw identifiers.
+\end{enumerate}}}
+
+\subsection{Privacy architecture}
+Patient and unit identifiers are replaced by salted, domain-separated HMAC-SHA256 tokens of the form
+\texttt{ANON-}\allowbreak\texttt{XXXXXXXXXXXXXXXX} (16 hexadecimal characters). The salt is held outside the model
+context. If no salt is configured, the software refuses to run (fail-closed). A regular-expression scrubber redacts
+names, record numbers, Saudi national ID and Iqama numbers, telephone numbers, email addresses, calendar dates, and
+facility names. All times are converted to elapsed hours ($\Delta t_j$) relative to ICU admission. A final guard
+raises an error if any personal health information pattern or raw identifier survives into the prompt. These are
+technical safeguards only. Lawful use requires local governance under the Saudi Personal Data Protection Law (PDPL),
+policies of the Saudi Data and Artificial Intelligence Authority (SDAIA), and, for MIMIC-IV and eICU-CRD, PhysioNet
+credentialing and the data use agreement. The agreement restricts transmitting data to third-party online services.\cite{mimic4,eicu}
+
+\subsection{Simulation design}
+The simulation was prespecified, and all parameters were fixed before the first run (seed 20261110). In each encounter,
+the true diagnosis $y$ was drawn from $K=4$ classes. Each biomarker was observed with probability
+$q\in\{0.95,0.60,0.25,0.25\}$ (scenarios S0--S3), with age drawn from $\mathcal U(0,kh_j)$, $k\in\{1,2,3,3\}$.
+Agent logits were $\beta e_y+b+\varepsilon_m$, where the signal was $\beta=3(1-\sigma)$, $b\sim\mathcal N(0,I)$ was a bias
+shared by all agents (common model family), and $\varepsilon_m\sim\mathcal N(0,I)$ was agent-specific noise.
+Each round applied conformity and sharpening, $p\leftarrow\mathrm{norm}\bigl[((1-\eta)p+\eta\bar p)^{1/\tau}\bigr]$, with
+$\eta=0.5$. We used $\tau=0.9$ in S0--S2 and $\tau=0.6$ in S3 to model confidence laundering. The base case had $M=5$
+and $R=2$. The outcome was a correct argmax consensus. We report the AUROC from the Mann-Whitney statistic with a
+1000-replicate bootstrap 95\% CI. In the scaling benchmark, run under S3 conditions with 200 encounters per cell and
+common random numbers across arms, the catfish agent kept its independent round-0 distribution in every round.
+
+\section{Results}
+\subsection{Vignettes}
+Case A had complete laboratory data, each value 1 hour old or less, and its agents agreed early. Case B was an admission triage
+at $T=0$ hours with no lactate, blood gas, coagulation, or liver tests, and with 3 laboratory values 3 hours old. Its
+agents disagreed initially, then converged with rising confidence and no new evidence (Table~3). Case A scored
+$\Sal=\CaseAScore$ (Tier~I). Case B scored $\Sal=\CaseBScore$ (Tier~III). For Case B the consensus was withheld, and
+the fallback issued the antimicrobial, stat-lactate, fluid, MAP, and ventilation prompts. Case B's laundering term was
+\CaseBLaundering: its confidence of \CaseBConf{} exceeded its ceiling of \CaseBCeiling. Arterial lactate ranked first by
+VOI (+\TopVOIPoints{} points), followed by the \SecondVOILabel{} (+\SecondVOIPoints) and bicarbonate (+\ThirdVOIPoints).
+These values match the closed form in Methods: $0.22\times(0.40+0.20\times\CaseBRho+0.20)\times100$ for lactate.
+
+\begin{table}[t]\centering\small
+\caption{Component values for the 2 vignettes and counterfactual VOI ranking for Case B}
+\begin{tabular}{lcccccccc}
+\toprule
+Case & $\sigma$ & $\mathrm{CED}_R$ & $\rho$ & $c_R$ & $c_{\max}$ & $\Sal$ & Tier & Consensus shown\\
+\midrule
+A, dense & \CaseASigma & \CaseACED & \CaseARho & \CaseAConf & \CaseACeiling & \CaseAScore & \CaseATier & Yes\\
+B, sparse triage & \CaseBSigma & \CaseBCED & \CaseBRho & \CaseBConf & \CaseBCeiling & \CaseBScore & \CaseBTier & No (\texttt{None})\\
+\bottomrule
+\end{tabular}\\[6pt]
+\begin{tabular}{clcc}
+\toprule
+Rank & Biomarker refreshed (Case B) & $\mathrm{VOI}_j$, points & $\Sal$ if refreshed\\
+\midrule
+\VOIRows
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Monte Carlo simulation}
+Across \MCN{} synthetic encounters, $\Sal$ discriminated correct from incorrect consensus with an AUROC of \MCAUROC{}
+(95\% CI, \MCAUROCLo--\MCAUROCHi). Raw consensus confidence had an AUROC of \MCAUROCConf. Mean scores and tier
+distributions followed the scenario gradient (Table~4). Consensus accuracy was \MCTierOneAcc\% in Tier~I
+($n=\MCTierOneN$) and \MCTierThreeAcc\% in Tier~III ($n=\MCTierThreeN$); $n=\MCTierTwoN$ encounters fell in Tier~II.
+Capping confidence at $c_{\max}$ reduced ECE from \MCECERaw{} to \MCECECapped.
+
+\begin{table}[t]\centering\small
+\caption{Synthetic Monte Carlo results by scenario ($M=5$, $R=2$)}
+\footnotesize\setlength{\tabcolsep}{4pt}
+\begin{tabular}{lp{4.1cm}ccccccc}
+\toprule
+ & Scenario & $n$ & Mean $\sigma$ & Mean $\Sal$ & Acc., \% & I, \% & II, \% & III, \%\\
+\midrule
+\MCScenarioRows
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Scaling and the catfish agent}
+Without a dissenter, $\rho_{\mathrm{collapse}}$ rose toward 1 as rounds increased at every panel size, and $\Sal$ fell
+accordingly (Table~5). A single catfish agent kept $\rho$ substantially lower and raised mean $\Sal$ by up to about 25
+points. Consensus accuracy, however, was essentially unchanged (differences of 1.0 percentage point or less in every
+cell). In this generative model, preserved dissent therefore restored the \emph{score} without improving the
+\emph{answer}.
+
+\begin{table}[t]\centering\small
+\caption{Scaling benchmark under scenario S3 (200 encounters per cell)}
+\footnotesize
+\begin{tabular}{cccccccc}
+\toprule
+$M$ & $R$ & $\rho$ naive & $\rho$ catfish & $\Sal$ naive & $\Sal$ catfish & Acc. naive, \% & Acc. catfish, \%\\
+\midrule
+\ScalingRows
+\bottomrule
+\end{tabular}
+\end{table}
+
+\section{Discussion}
+The AlSamadani Score turns 4 failure signatures of recursive multi-agent deliberation into a single, auditable display
+rule: missing or stale data, drift unsupported by evidence, collapse of dissent under sparsity, and confidence above
+what the data support. Its distinguishing design choice is that abstention is \emph{active}. When the AI is silenced,
+the clinician receives the guideline bundle and a ranked list of the tests most likely to restore a usable assessment.
+In the sparse admission vignette, arterial lactate topped that list. Lactate carries the largest weight and the
+shortest half-life in the panel, and SSC 2026 places it at the center of early resuscitation.\cite{ssc2026}
+
+The simulation supports the internal logic of the score. Scores were lower when data were sparser, and the tiers
+separated consensus accuracy. The confidence ceiling also reduced calibration error. The AUROC of \MCAUROC{} is modest,
+however, and it is a property of our generative model, not of any real agent system. We report it as such, without
+tuning the parameters to reach a target value.
+
+The most important finding is negative. A stubborn dissenter lowers $\rho_{\mathrm{collapse}}$ by construction and so
+raises $\Sal$ without improving accuracy. A naive implementation could therefore be gamed: adding a contrarian agent
+would move encounters out of Tier~III with no epistemic gain. This mirrors the consistency illusion described by Wang
+and Yang\cite{wangyang} in the opposite direction, where \emph{apparent} diversity is mistaken for grounded diversity.
+Before validation, we recommend 3 changes: (1) require catfish dissent to cite observed data, for example by weighting
+$D_r$ with a reasoning-alignment measure such as CARA;\cite{wangyang} (2) exclude designated dissenters from $D_r$; or
+(3) cap the credit the dissent term can contribute.
+
+\subsection{Limitations}
+First, no patient data were analyzed. All performance figures are synthetic and depend on the assumed generative model.
+Second, the weights, half-lives, $\gamma$, $\kappa$, and the tier thresholds are expert priors and have not been
+calibrated. Third, VOI is first order: it holds the agents' beliefs fixed. Fourth, the panel omits the nonlaboratory
+SOFA components and cardiac-specific markers that matter in the cardiovascular ICU (CVICU), such as troponin,
+natriuretic peptides, and mixed venous saturation. Fifth, the regular-expression scrubber is not a certified
+de-identification tool. Sixth, the guideline engine paraphrases SSC 2026 and KDIGO, and its wording and recommendation
+strengths must be checked against the primary texts before deployment.
+
+\subsection{Planned validation}
+We will register a protocol for retrospective validation. It will use MIMIC-IV v3.1 for development and eICU-CRD for
+external evaluation, with the bundled loader. We will report it according to TRIPOD+AI\cite{tripodai} (eTable).
+Prespecified outcomes are discrimination, calibration, and net benefit of $\Sal$ for consensus error, together with the
+time to and yield of VOI-ranked tests. Prospective silent-mode evaluation at the authors' institutions would follow,
+subject to ethics approval.
+
+\subsection{Regulatory considerations}
+We designed the software with reference to the 4 nondevice clinical decision support criteria of FD\&C Act
+\S520(o)(1)(E), as added by 21st Century Cures Act \S3060(a), and the US Food and Drug Administration's 2026 clinical
+decision support guidance.\cite{fdacds} Time-critical ICU use can place software outside those criteria. We make no
+regulatory determination; formal review is required. The design also draws on World Health Organization guidance on
+AI for health\cite{who2024} and on Saudi PDPL and SDAIA requirements.
+
+\section{Conclusions}
+The AlSamadani Score is a transparent, fail-closed rule for withholding under-grounded multi-agent LLM consensus in the
+ICU. It always provides a guideline fallback and data-acquisition guidance in its place. The score is ready for
+prespecified validation. It is not ready for clinical use.
+
+\section*{Article Information}
+\small
+\textbf{Author Contributions:} Dr AlSamadani conceived the framework, takes responsibility for the integrity of the work, and
+is accountable for all content. \textbf{Conflict of Interest Disclosures:} [To be completed by the author.]
+\textbf{Funding/Support:} [To be completed by the author.]
+\textbf{Data Sharing Statement:} No patient data were used. Code, tests, and generated results are available in the
+project repository. MIMIC-IV and eICU-CRD are available to credentialed users through PhysioNet.
+
+\textbf{Use of AI (JAMA Network, ICMJE, arXiv/alphaXiv, and Saudi AI Principles in Media):}
+Generative AI tools assisted with this work. Google Gemini was used for preliminary conceptual exploration.
+Claude (Anthropic), through Claude Code, was used in November 2026 to draft and refactor the software, the unit tests,
+and this manuscript text, and to search for and screen literature. All equations, parameter choices, and claims were
+reviewed by the author, who accepts full responsibility for the content, consistent with JAMA Network guidance,\cite{flanagin2024} ICMJE
+recommendations,\cite{icmje} the arXiv policy on generative AI,\cite{arxivai} and the disclosure and
+human-responsibility principles of the Saudi \emph{AI Principles in Media}.\cite{saudimedia} AI tools are not authors.
+No patient data were entered into any AI tool. [The author must confirm this statement after reviewing the final text.]
+
+\medskip
+\begin{table}[ht]\centering\small
+\caption*{\textbf{eTable.} Reporting status against TRIPOD+AI\cite{tripodai} domains for this methods and simulation study}
+\begin{tabularx}{\linewidth}{p{4.2cm}p{2.4cm}Y}
+\toprule
+TRIPOD+AI domain & Status & Where addressed or plan\\
+\midrule
+Title and abstract & Reported & Title; structured abstract; Key Points\\
+Background and objectives & Reported & Introduction\\
+Data sources and participants & Not applicable & Synthetic data only; MIMIC-IV v3.1 and eICU-CRD planned\\
+Outcome definition & Partly reported & Simulated correct consensus; clinical reference standard to be prespecified\\
+Predictors and their handling & Reported & Table~1; Eq.~1; loader specification\\
+Sample size & Not applicable & Simulation $N=\MCN$; formal sample-size calculation planned for validation\\
+Missing data & Reported (design) & Missingness is a model input ($m_j$) and is never imputed\\
+Model specification & Reported & Eqs~1--5; prespecified parameters; open code\\
+Performance (discrimination, calibration) & Synthetic only & Table~4; real-data evaluation pending\\
+Fairness and subgroups & Pending & Planned across age, sex, unit type (ICU vs CVICU), and site\\
+Model updating and monitoring & Pending & Silent-mode prospective evaluation\\
+Open science and AI use & Reported & Article Information; Data Sharing Statement\\
+Limitations & Reported & Discussion\\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\renewcommand{\refname}{References}
+\begin{thebibliography}{99}\small\setlength{\itemsep}{1pt}
+\bibitem{agentrx} Al Jorf B, Shamout FE. AgentRx: a benchmark study of LLM agents for multimodal clinical prediction tasks. arXiv. Preprint posted May 2026. arXiv:2605.10286
+\bibitem{mira} Towards autonomous medical artificial intelligence agents. \textit{Nature}. 2026. doi:10.1038/s41586-026-10675-5 [author list to be verified]
+\bibitem{du2024} Du Y, Li S, Torralba A, Tenenbaum JB, Mordatch I. Improving factuality and reasoning in language models through multiagent debate. In: \textit{Proceedings of ICML 2024}. arXiv:2305.14325
+\bibitem{wangyang} Wang X, Yang C. The consistency illusion: how multi-agent debate hides reasoning misalignment. In: \textit{Proceedings of EMNLP 2026 (Main Conference)}. Association for Computational Linguistics; 2026. arXiv:2606.08457
+\bibitem{iapascurta} Iapascurta V, et al. Multi-agent system for early sepsis management support: a follow-up evaluation study. \textit{Healthc Inform Res}. 2026;32(2):190-195. doi:10.4258/hir.2026.32.2.190
+\bibitem{goddard} Goddard K, Roudsari A, Wyatt JC. Automation bias: a systematic review of frequency, effect mediators, and mitigators. \textit{J Am Med Inform Assoc}. 2012;19(1):121-127. doi:10.1136/amiajnl-2011-000089
+\bibitem{wong2021} Wong A, Otles E, Donnelly JP, et al. External validation of a widely implemented proprietary sepsis prediction model in hospitalized patients. \textit{JAMA Intern Med}. 2021;181(8):1065-1070. doi:10.1001/jamainternmed.2021.2626
+\bibitem{guo2017} Guo C, Pleiss G, Sun Y, Weinberger KQ. On calibration of modern neural networks. In: \textit{Proceedings of ICML 2017}. PMLR 70:1321-1330.
+\bibitem{lin1991} Lin J. Divergence measures based on the Shannon entropy. \textit{IEEE Trans Inf Theory}. 1991;37(1):145-151. doi:10.1109/18.61115
+\bibitem{singer2016} Singer M, Deutschman CS, Seymour CW, et al. The Third International Consensus Definitions for Sepsis and Septic Shock (Sepsis-3). \textit{JAMA}. 2016;315(8):801-810. doi:10.1001/jama.2016.0287
+\bibitem{vincent1996} Vincent JL, Moreno R, Takala J, et al. The SOFA (Sepsis-related Organ Failure Assessment) score to describe organ dysfunction/failure. \textit{Intensive Care Med}. 1996;22(7):707-710. doi:10.1007/BF01709751
+\bibitem{naeini2015} Naeini MP, Cooper GF, Hauskrecht M. Obtaining well calibrated probabilities using Bayesian binning. In: \textit{Proceedings of AAAI 2015}:2901-2907.
+\bibitem{ssc2026} Prescott HC, et al. Surviving Sepsis Campaign: international guidelines for management of sepsis and septic shock 2026. \textit{Crit Care Med}. 2026. doi:10.1097/CCM.0000000000007075 (co-published in \textit{Intensive Care Med}, doi:10.1007/s00134-026-08361-1) [author list to be verified]
+\bibitem{kdigo2012} Kidney Disease: Improving Global Outcomes (KDIGO) Acute Kidney Injury Work Group. KDIGO clinical practice guideline for acute kidney injury. \textit{Kidney Int Suppl}. 2012;2(1):1-138.
+\bibitem{mimic4} Johnson AEW, Bulgarelli L, Shen L, et al. MIMIC-IV, a freely accessible electronic health record dataset. \textit{Sci Data}. 2023;10(1):1. doi:10.1038/s41597-022-01899-x
+\bibitem{eicu} Pollard TJ, Johnson AEW, Raffa JD, et al. The eICU Collaborative Research Database, a freely available multi-center database for critical care research. \textit{Sci Data}. 2018;5:180178. doi:10.1038/sdata.2018.178
+\bibitem{tripodai} Collins GS, Moons KGM, Dhiman P, et al. TRIPOD+AI statement: updated guidance for reporting clinical prediction models that use regression or machine learning methods. \textit{BMJ}. 2024;385:e078378. doi:10.1136/bmj-2023-078378
+\bibitem{fdacds} US Food and Drug Administration. Clinical decision support software: guidance for industry and Food and Drug Administration staff. Updated January 2026.
+\bibitem{who2024} World Health Organization. \textit{Ethics and Governance of Artificial Intelligence for Health: Guidance on Large Multi-Modal Models}. WHO; 2024.
+\bibitem{flanagin2024} Flanagin A, Pirracchio R, Khera R, Berkwits M, Hswen Y, Bibbins-Domingo K. Reporting use of AI in research and scholarly publication---JAMA Network guidance. \textit{JAMA}. 2024;331(13):1096-1098. doi:10.1001/jama.2024.3471
+\bibitem{icmje} International Committee of Medical Journal Editors. Recommendations for the conduct, reporting, editing, and publication of scholarly work in medical journals. Current version. Accessed November 2026. https://www.icmje.org
+\bibitem{arxivai} arXiv. arXiv policy for authors' use of generative AI language tools. Accessed November 2026. https://info.arxiv.org
+\bibitem{saudimedia} Kingdom of Saudi Arabia Ministry of Media, with SDAIA and partner authorities. AI principles in media. [Issuing date and principle numbering to be verified against the official text.]
+\end{thebibliography}
+\end{document}
