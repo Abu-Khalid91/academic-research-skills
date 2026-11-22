@@ -94,6 +94,12 @@ Takes one trend, paper, or company/product named by the user (typically from a p
 
 ---
 
+## Multi-Agent Coordination (shared ledger)
+
+Other agents (for example an OpenAI agent, via root `AGENTS.md`) may also run scans on this repo. Every run MUST start by reading `research-pulse/digests/LEDGER.md` and follow its protocol: claim a topic, skip topics and sources already covered, save the digest as `research-pulse/digests/YYYY-MM-DD-<agent>.md`, and update the ledger at the end.
+
+---
+
 ## Boundaries
 
 - This skill does not verify citations for inclusion in a paper (`deep-research` / the v3.11 `citation_existence` gate own that) — a finding surfaced here that looks relevant to the user's own citation-verification work is a pointer for them to read the source themselves, not a pre-vetted addition to the corpus.
