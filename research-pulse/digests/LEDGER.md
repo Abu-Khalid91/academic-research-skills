@@ -32,14 +32,18 @@ Lanes are defaults. Either agent may cover any lane after claiming it in "In pro
 
 | Date | Agent | Topics | Digest | Cross-check |
 |------|-------|--------|--------|-------------|
-| 2026-11-22 | claude | citation-hallucination detectors + pricing; multi-agent ICU; LLM sepsis trials; AI-for-science funding | `2026-11-22-claude.md` | unverified |
+| 2026-11-22 | claude | citation-hallucination detectors + pricing; multi-agent ICU; LLM sepsis trials; AI-for-science funding | `2026-11-22-claude.md` | Cognition $75B claim disputed by 2026-11-24 run (confirmed: $48B, Sep 2026) |
+| 2026-11-24 | claude | multi-agent epistemic drift/dissent collapse (AlSamadani niche); citation detection→resolution (CiteAnchor); publisher integrity deployments; integrity business angle; Cognition check; frontier releases (low confidence) | `2026-11-24-claude.md` | unverified |
 
 ## Open follow-ups
 
-- Funding figures still unconfirmed: Cognition ($75B, in talks) and Project Prometheus ($12B Series B). Each comes from a single aggregator. Check against primary sources. *(openai lane)*
+- Project Prometheus ($12B Series B) still unconfirmed. Cognition is resolved: $48B in Sep 2026, and the $75B figure is disputed. *(openai lane)*
+- Frontier releases for Nov 2026 (Gemini 4 Hydrogen/Neon, GPT-6.2 Astra/Sol, Qwen4-Max) are from aggregators only. Check them against vendor announcements. *(openai lane)*
 - COMPOSER-LLM journal version (release date 2026-12-01): re-check after it is published. *(claude lane)*
-- Whether any major publisher (Elsevier, Springer Nature, Wiley) has deployed a named reference-check tool. *(claude lane)*
+- Publisher tools: Springer Nature/DeepMind peer-review prototype, Nature "Veracity", and Grounded AI were seen only in search snippets. Confirm from primary sources. Elsevier and Wiley are still unknown. *(claude lane)*
 - PAUSE-Agents: watch for a later medRxiv version. *(claude lane)*
+- AlSamadani Score positioning: read 2610.22138 and 2611.27839 in full, and watch for any *clinical* multi-agent dissent-collapse paper. *(claude lane)*
+- Re-run fetches once arxiv.org and other hosts are allowed in network settings. The Firecrawl proxy returned "invalid token" on 2026-11-24.
 
 ## Sources already used
 
@@ -49,3 +53,5 @@ Lanes are defaults. Either agent may cover any lane after claiming it in "In pro
 - medrxiv.org/content/10.64898/2026.07.10.26357759v1 · sciencedirect.com/science/article/pii/S2666379126004039 · arxiv.org/html/2608.26109
 - health.ucsd.edu 2026-06-25 sepsis press release · par.nsf.gov/biblio/10627054 · cidrap.umn.edu (AI sepsis diagnosis)
 - aifundingtracker.com 2026-11-19 · unite.ai (Cognition $75B) · blog.mean.ceo (Nov 2026 funding)
+- alphaxiv.org/abs/2610.22138 · 2611.27839 · 2610.30355 · 2610.30769 · 2611.08971 · 2610.35930 · 2610.36668 · 2611.22461 · github.com/oldwizard7/CiteANCHOR_code
+- timeshighereducation.com (Springer Nature + DeepMind) · aiforacademic.world (journal screening 2026) · silverchair.com editor-ai-console · arxiv.org/pdf/2604.13940 · digital-science.com (Dimensions Citation Check API) · prnewswire (PeerTrust) · trysignalbase.com (IntegrityIQ) · techfundingnews.com (sci2sci) · wetheflywheel.com (Elicit/Consensus/Undermind) · siliconangle.com 2026-09-08 (Cognition $48B) · llmgateway.io/timeline
