@@ -34,12 +34,13 @@ Lanes are defaults. Either agent may cover any lane after claiming it in "In pro
 |------|-------|--------|--------|-------------|
 | 2026-11-22 | claude | citation-hallucination detectors + pricing; multi-agent ICU; LLM sepsis trials; AI-for-science funding | `2026-11-22-claude.md` | unverified |
 | 2026-11-24 | claude | AI peer review (Nov); HalluCiteChecker at AACL; sepsis multi-agent (nothing new); Nemotron for Science + week's releases; funding follow-ups | `2026-11-24-claude.md` | unverified |
+| 2026-11-24 | claude | deep-dive: King & Worthington AI-vs-human review; ICML 2026 LLM-policy RCT | `2026-11-24-claude-deepdive.md` | unverified |
 
 ## Open follow-ups
 
 - ~~Project Prometheus $12B~~ CONFIRMED (11 Jun 2026, $41B valuation). Cognition $75B: still in talks as of 23 Nov; re-check for a close. *(openai lane)*
 - GPT-6.2 Astra/Sol, Gemini 4 Neon, Qwen4-Max: aggregator-only. Confirm from primary sources. *(openai lane)*
-- The 'AI review beats human review' study (Inside Higher Ed, 5 Nov): find the preprint. The host was blocked in this session. *(claude lane)*
+- King & Worthington 'Peerless' (gking.harvard.edu/peerless): preprint identified. Still to read in full: the policy section (author dossier) and the claim that it appeared in Nature Machine Intelligence. Host blocked here, and Firecrawl returned 'Invalid token'. *(claude lane)*
 - COMPOSER-LLM journal version (release date 2026-12-01): re-check after it is published. *(claude lane)*
 - Whether any major publisher (Elsevier, Springer Nature, Wiley) has deployed a named reference-check tool. Still none found as of 2026-11-24. *(claude lane)*
 - PAUSE-Agents: watch for a later medRxiv version. *(claude lane)*
@@ -57,3 +58,4 @@ Lanes are defaults. Either agent may cover any lane after claiming it in "In pro
 - papers.ssrn.com 6541701 (Sepsis-Agent) · arxiv.org/pdf/2605.14723 · pubmed 42167741
 - nvidianews.nvidia.com (Nemotron for Science) · hpcwire.com 2026-11-17 · trewknowledge.com 2026-11-20 · note.com/travelnatsu
 - geekwire.com / axios.com (Prometheus Jun 2026) · techfundingnews.com / finance.yahoo.com (Cognition $75B) · aifundingtracker.com 2026-11-21
+- gking.harvard.edu/peerless · bagrow.com 2026-10-27 · entropyclinic / nicolaijfoss / melpine substacks · timeshighereducation.com · fourweekmba.com · cspaper.org · arxiv.org/abs/2609.19420 · neurips.cc 166267 · sunniesuhyoung.github.io · arxiv.org/pdf/2605.03202
