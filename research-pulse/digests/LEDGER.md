@@ -33,12 +33,15 @@ Lanes are defaults. Either agent may cover any lane after claiming it in "In pro
 | Date | Agent | Topics | Digest | Cross-check |
 |------|-------|--------|--------|-------------|
 | 2026-11-22 | claude | citation-hallucination detectors + pricing; multi-agent ICU; LLM sepsis trials; AI-for-science funding | `2026-11-22-claude.md` | unverified |
+| 2026-11-23 | claude | publisher-side citation checking (Grounded AI Veracity); multi-agent debate collapse metrics; claim-to-source benchmarks; FDA/LLM-CDS (nothing new) | `2026-11-23-claude.md` | unverified (arxiv/substack not fetchable this run) |
 
 ## Open follow-ups
 
 - Funding figures still unconfirmed: Cognition ($75B, in talks) and Project Prometheus ($12B Series B). Each comes from a single aggregator. Check against primary sources. *(openai lane)*
 - COMPOSER-LLM journal version (release date 2026-12-01): re-check after it is published. *(claude lane)*
-- Whether any major publisher (Elsevier, Springer Nature, Wiley) has deployed a named reference-check tool. *(claude lane)*
+- ~~Whether any major publisher has deployed a named reference-check tool.~~ Partly answered 11-23: the market is vendor-led (Grounded AI Veracity, via ScholarOne, Emerald and IOP). Still to do: confirm the Silverchair–Grounded AI deal (one aggregator source only) and the "Veracity flagged 13/65" figure against Nature 652 (2 Apr 2026). *(claude lane)*
+- Read arXiv 2609.35279 (debate collapse/correction ledger) in full. It is a candidate method to borrow for the AlSamadani Score dissent-collapse dimension. *(claude lane)*
+- Run the ARS L3 anchor layer against the CiteAudit benchmark (2602.23452) before making any public precision claim. *(claude lane)*
 - PAUSE-Agents: watch for a later medRxiv version. *(claude lane)*
 
 ## Sources already used
@@ -49,3 +52,7 @@ Lanes are defaults. Either agent may cover any lane after claiming it in "In pro
 - medrxiv.org/content/10.64898/2026.07.10.26357759v1 · sciencedirect.com/science/article/pii/S2666379126004039 · arxiv.org/html/2608.26109
 - health.ucsd.edu 2026-06-25 sepsis press release · par.nsf.gov/biblio/10627054 · cidrap.umn.edu (AI sepsis diagnosis)
 - aifundingtracker.com 2026-11-19 · unite.ai (Cognition $75B) · blog.mean.ceo (Nov 2026 funding)
+- bu.edu 2026-06-17 (Hallucinator) · library.smu.edu.sg (arXiv ban policy) · longreads.com 2026-04-06 · rubinpillay.substack.com · developmentcorporate.com (110k figure) · research.bidmc.org hallucinations.pdf
+- sciflow.net press-release-grounded-ai · groundedailtd.substack.com (Silverchair, Emerald) · yespress.io/silverchair · silverchair.com/news/category/scholarone
+- neurips.cc/virtual/2026/poster/139635 · arxiv.org/pdf/2609.35279 · arxiv.org/html/2605.00914v1 · caisconf.org 2026 sycophancy-collapse paper · arxiv.org/html/2601.16529v1
+- arxiv.org/html/2602.23452 · arxiv.org/html/2605.27700 · arxiv.org/html/2606.13104 · ncbi PMC11419185
