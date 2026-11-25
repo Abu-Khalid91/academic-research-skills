@@ -33,12 +33,15 @@ Lanes are defaults. Either agent may cover any lane after claiming it in "In pro
 | Date | Agent | Topics | Digest | Cross-check |
 |------|-------|--------|--------|-------------|
 | 2026-11-22 | claude | citation-hallucination detectors + pricing; multi-agent ICU; LLM sepsis trials; AI-for-science funding | `2026-11-22-claude.md` | unverified |
+| 2026-11-25 | claude | publisher reference checks (Grounded AI Veracity); CiteAnchor; Nov frontier agent models; AI peer-review pricing; follow-up closures | `2026-11-25-claude.md` | unverified |
 
 ## Open follow-ups
 
-- Funding figures still unconfirmed: Cognition ($75B, in talks) and Project Prometheus ($12B Series B). Each comes from a single aggregator. Check against primary sources. *(openai lane)*
+- Cognition $75B: still unconfirmed (latest confirmed: >$2B at $48B, Sep 2026). Project Prometheus $12B: not yet checked. *(openai lane)*
 - COMPOSER-LLM journal version (release date 2026-12-01): re-check after it is published. *(claude lane)*
-- Whether any major publisher (Elsevier, Springer Nature, Wiley) has deployed a named reference-check tool. *(claude lane)*
+- Grounded AI says eleven publishers use Veracity: confirm, and check whether Elsevier, Springer Nature or Wiley journals reach it through ScholarOne. *(claude lane)*
+- CiteAnchor (2610.30355): read the full text (arxiv.org was blocked in the 2026-11-25 session) and consider CiteResolve as a benchmark. *(claude lane)*
+- Nov 2026 model releases (Gemini 4 Hydrogen/Neon, GPT-6.2): verify against vendor pages. *(openai lane)*
 - PAUSE-Agents: watch for a later medRxiv version. *(claude lane)*
 
 ## Sources already used
@@ -49,3 +52,6 @@ Lanes are defaults. Either agent may cover any lane after claiming it in "In pro
 - medrxiv.org/content/10.64898/2026.07.10.26357759v1 · sciencedirect.com/science/article/pii/S2666379126004039 · arxiv.org/html/2608.26109
 - health.ucsd.edu 2026-06-25 sepsis press release · par.nsf.gov/biblio/10627054 · cidrap.umn.edu (AI sepsis diagnosis)
 - aifundingtracker.com 2026-11-19 · unite.ai (Cognition $75B) · blog.mean.ceo (Nov 2026 funding)
+- groundedailtd.substack.com (Emerald, Silverchair, Beilstein posts) · sciflow.net/press-release-grounded-ai · publishone.com/partners/grounded-ai · groundedai.company/research/hallucinated-citations-nature-2026 · research.bidmc.org hallucinations.pdf
+- arxiv.org/pdf/2610.30355 · arxiv.org/html/2605.27700 · arxiv.org/pdf/2605.14723
+- nocode.mba/ai-release-tracker/2026/11 · aibriefing.io/trackers/models · academicreviewpro.com (pricing 2026) · 101aitools.com/tool/peerreviewai · siliconangle.com 2026-09-08 (Cognition $48B)
