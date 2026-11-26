@@ -33,15 +33,18 @@ Lanes are defaults. Either agent may cover any lane after claiming it in "In pro
 | Date | Agent | Topics | Digest | Cross-check |
 |------|-------|--------|--------|-------------|
 | 2026-11-22 | claude | citation-hallucination detectors + pricing; multi-agent ICU; LLM sepsis trials; AI-for-science funding | `2026-11-22-claude.md` | unverified |
-| 2026-11-23 | claude | publisher-side citation checking (Grounded AI Veracity); multi-agent debate collapse metrics; claim-to-source benchmarks; FDA/LLM-CDS (nothing new) | `2026-11-23-claude.md` | unverified (arxiv/substack not fetchable this run) |
+| 2026-11-23 | claude | publisher-side citation checking (Grounded AI Veracity); multi-agent debate collapse metrics; claim-to-source benchmarks; FDA/LLM-CDS (nothing new) | `2026-11-23-claude.md` | partly verified 11-26 by claude: 2609.35279 read in full; the "29 collapses / 108 corrections" freeze figure is a Figure 1 illustration, headline is 251 / 804. Silverchair deal still unconfirmed |
+| 2026-11-26 | claude | existence-vs-relevance of citations (Real PMIDs, CiteAnchor); debate-ledger full read; clinical multi-agent bias (Disparity Laundering) and single-vs-multi-agent (JAMIA); AI peer-reviewer benchmark; research-tool pricing snapshot | `2026-11-26-claude.md` | arXiv items read in full text; pricing/funding from secondary guides only |
 
 ## Open follow-ups
 
 - Funding figures still unconfirmed: Cognition ($75B, in talks) and Project Prometheus ($12B Series B). Each comes from a single aggregator. Check against primary sources. *(openai lane)*
 - COMPOSER-LLM journal version (release date 2026-12-01): re-check after it is published. *(claude lane)*
 - ~~Whether any major publisher has deployed a named reference-check tool.~~ Partly answered 11-23: the market is vendor-led (Grounded AI Veracity, via ScholarOne, Emerald and IOP). Still to do: confirm the Silverchair–Grounded AI deal (one aggregator source only) and the "Veracity flagged 13/65" figure against Nature 652 (2 Apr 2026). *(claude lane)*
-- Read arXiv 2609.35279 (debate collapse/correction ledger) in full. It is a candidate method to borrow for the AlSamadani Score dissent-collapse dimension. *(claude lane)*
-- Run the ARS L3 anchor layer against the CiteAudit benchmark (2602.23452) before making any public precision claim. *(claude lane)*
+- ~~Read arXiv 2609.35279 in full.~~ Done 11-26. Next: draft how the four-cell transition table and onset round map onto the AlSamadani Score dissent-collapse dimension, including recording which dissent was removed (see Disparity Laundering, 2610.38215). *(claude lane)*
+- Run the ARS L3 anchor layer against the CiteAudit benchmark (2602.23452) before making any public precision claim. Comparator as of 11-26: CiteAnchor (2610.30355), F1 0.841 / precision 0.875; also consider CiteResolve (423 citations). *(claude lane)*
+- Try the Skepthical injected-error benchmark (2611.17052, public repo) on `academic-paper-reviewer`. *(claude lane)*
+- Consensus $30M round (May 2026) and current vendor pricing: confirm against primary pages. *(openai lane)*
 - PAUSE-Agents: watch for a later medRxiv version. *(claude lane)*
 
 ## Sources already used
@@ -56,3 +59,5 @@ Lanes are defaults. Either agent may cover any lane after claiming it in "In pro
 - sciflow.net press-release-grounded-ai · groundedailtd.substack.com (Silverchair, Emerald) · yespress.io/silverchair · silverchair.com/news/category/scholarone
 - neurips.cc/virtual/2026/poster/139635 · arxiv.org/pdf/2609.35279 · arxiv.org/html/2605.00914v1 · caisconf.org 2026 sycophancy-collapse paper · arxiv.org/html/2601.16529v1
 - arxiv.org/html/2602.23452 · arxiv.org/html/2605.27700 · arxiv.org/html/2606.13104 · ncbi PMC11419185
+- arxiv.org/abs/2610.29812 · 2610.30355 · 2610.38215 · 2611.17052 · 2611.01313 · 2611.27839 · 2611.30951 · 2611.13661 · doi.org/10.1093/jamia/ocag179 · doi.org/10.2196/95400
+- alpsp.org (eWorkflow–Grounded AI) · zenodo.org/records/24062771 · aclanthology.org/2026.aacl-demo.5 · wetheflywheel.com (Elicit vs Consensus vs Undermind) · theaiagentindex.com/ai-research-agents · spiritt.ai (Elicit guide)
