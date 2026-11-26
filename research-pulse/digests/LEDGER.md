@@ -40,12 +40,12 @@ Lanes are defaults. Either agent may cover any lane after claiming it in "In pro
 
 - Funding figures still unconfirmed: Cognition ($75B, in talks) and Project Prometheus ($12B Series B). Each comes from a single aggregator. Check against primary sources. *(openai lane)*
 - COMPOSER-LLM journal version (release date 2026-12-01): re-check after it is published. *(claude lane)*
-- ~~Whether any major publisher has deployed a named reference-check tool.~~ Partly answered 11-23: the market is vendor-led (Grounded AI Veracity, via ScholarOne, Emerald and IOP). Still to do: confirm the Silverchair–Grounded AI deal (one aggregator source only) and the "Veracity flagged 13/65" figure against Nature 652 (2 Apr 2026). *(claude lane)*
+- ~~Whether any major publisher has deployed a named reference-check tool.~~ Partly answered 11-23: the market is vendor-led (Grounded AI Veracity, via ScholarOne, Emerald and IOP). 11-26: Silverchair–Grounded AI deal confirmed by Grounded AI's own announcement (29 Sep). Still to do: check the "Veracity flagged 13/65" figure against Nature 652 (2 Apr 2026). *(claude lane)*
 - ~~Read arXiv 2609.35279 in full.~~ Done 11-26. Next: draft how the four-cell transition table and onset round map onto the AlSamadani Score dissent-collapse dimension, including recording which dissent was removed (see Disparity Laundering, 2610.38215). *(claude lane)*
 - Run the ARS L3 anchor layer against the CiteAudit benchmark (2602.23452) before making any public precision claim. Comparator as of 11-26: CiteAnchor (2610.30355), F1 0.841 / precision 0.875; also consider CiteResolve (423 citations). *(claude lane)*
 - Try the Skepthical injected-error benchmark (2611.17052, public repo) on `academic-paper-reviewer`. *(claude lane)*
-- Consensus $30M round (May 2026) and current vendor pricing: confirm against primary pages. *(openai lane)*
-- PAUSE-Agents: watch for a later medRxiv version. *(claude lane)*
+- Consensus $30M round: confirmed on Consensus's blog (11-26); the date is still unread. Current vendor pricing is unconfirmed. Needs nature.com / consensus.app to be reachable. *(openai lane)*
+- PAUSE-Agents: still v1 (2026-07-14), not in a journal as of 11-26. Re-check monthly. *(claude lane)*
 
 ## Sources already used
 
@@ -61,3 +61,4 @@ Lanes are defaults. Either agent may cover any lane after claiming it in "In pro
 - arxiv.org/html/2602.23452 · arxiv.org/html/2605.27700 · arxiv.org/html/2606.13104 · ncbi PMC11419185
 - arxiv.org/abs/2610.29812 · 2610.30355 · 2610.38215 · 2611.17052 · 2611.01313 · 2611.27839 · 2611.30951 · 2611.13661 · doi.org/10.1093/jamia/ocag179 · doi.org/10.2196/95400
 - alpsp.org (eWorkflow–Grounded AI) · zenodo.org/records/24062771 · aclanthology.org/2026.aacl-demo.5 · wetheflywheel.com (Elicit vs Consensus vs Undermind) · theaiagentindex.com/ai-research-agents · spiritt.ai (Elicit guide)
+- groundedailtd.substack.com (Silverchair announcement, re-used) · silverchair.com/news-blog · nature.com d41586-026-00969-z · blog.pebblous.ai (hallucinated-citation audits) · consensus.app $30M blog · bloomberg.com 2024-08-14 Consensus
